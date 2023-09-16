@@ -1,8 +1,9 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const pingRouter = require("./routes/pingRouter");
-require("dotenv").config();
+const supabaseClient = require("./utils/db");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -19,9 +20,11 @@ async function main() {
     app.use(cors());
     app.use(bodyParser.json());
 
-    // console.log("Connecting to MongoDB");
-    // await mongoose.connect(MONGO_URI);
-    // console.log("Connected to MongoDB");
+    const { data, error } = await supabaseClient
+      .from('users')
+      .select()
+
+    console.log(data, error)
 
     app.listen(PORT, () => {
       console.log("Server is running on port 3000");
