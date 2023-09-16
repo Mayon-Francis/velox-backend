@@ -20,7 +20,8 @@ async function main() {
     app.use(cors());
     app.use(bodyParser.json());
 
-    mongoose.connect(MONGO_URI);
+    console.log("Connecting to MongoDB");
+    await mongoose.connect(MONGO_URI);
     console.log("Connected to MongoDB");
 
     app.listen(PORT, () => {
