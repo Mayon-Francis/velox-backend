@@ -52,7 +52,10 @@ taskRouter.post("/", async (req, res) => {
             }
         }
     }
-
+    console.log({
+        socketEvent: `new-task-${data[0]?.id}`,
+        data: req.body
+    })
     io.emit(`new-task-${data[0]?.id}`, req.body);
     return res.status(200).json({
         message: "Task Added Successfully",
