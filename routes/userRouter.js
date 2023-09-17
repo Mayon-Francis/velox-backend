@@ -39,6 +39,8 @@ userRouter.post("/login", async (req, res) => {
         return res.status(200).json({
             message: "Login Success",
             id: data[0].id,
+            role: data[0].role,
+            email: data[0].email,
             status: true
         });
     }

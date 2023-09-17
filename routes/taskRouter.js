@@ -114,7 +114,29 @@ taskRouter.post("/accept", async (req, res) => {
     const { error } = await supabaseClient
         .from("tasks")
         .update({
-            status: "accepted",
+            status: "ongoing",
+        })
+        .eq("id", req.body.id);
+
+    if (error) {
+        return res.status(500).json({
+            message: "Something went wrong",
+            error: error,
+            status: false,
+        });
+    } else {
+        return res.status(200).json({
+            message: "Task Accepted Successfully",
+            status: true,
+        });
+    }
+});
+
+taskRouter.post("/complete", async (req, res) => {
+    const { error } = await supabaseClient
+        .from("tasks")
+        .update({
+            status: "completed",
         })
         .eq("id", req.body.id);
 
