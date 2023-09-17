@@ -1,15 +1,11 @@
 require("dotenv").config();
-const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const supabaseClient = require("./utils/db");
 const pingRouter = require("./routes/pingRouter");
 const userRouter = require("./routes/userRouter");
 const taskRouter = require("./routes/taskRouter");
-
-const app = express();
-const server = require('http').createServer(app);
-const io = require('socket.io')(server);
+const { app, io, server } = require("./utils/init");
 
 const PORT = process.env.PORT || 3000;
 // const MONGO_URI = process.env.MONGO_URI;
@@ -18,7 +14,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-io.on('connection', () => { /* … */ });
+
 
 
 async function main() {
@@ -30,6 +26,13 @@ async function main() {
     app.use("/ping", pingRouter);
     app.use("/user", userRouter);
     app.use("/task", taskRouter);
+
+    io.on('connection', (socket) => {
+      console.log('a socket user connected');
+      socket.on('disconnect', function () {
+        console.log('a socket user connected');
+      });
+    });
 
     server.listen(PORT);
     console.log(`Server is running on port ${PORT}`);

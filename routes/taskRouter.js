@@ -1,4 +1,5 @@
 const { Router } = require("express");
+const { io } = require("../utils/init");
 const supabaseClient = require("../utils/db");
 
 const taskRouter = Router();
@@ -52,6 +53,7 @@ taskRouter.post("/", async (req, res) => {
     }
   }
 
+io.emit(`new-task-${data[0]?.id}`, req.body);
   return res.status(200).json({
     message: "Task Added Successfully",
     status: true,
