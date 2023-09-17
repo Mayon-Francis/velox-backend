@@ -5,6 +5,7 @@ const supabaseClient = require("./utils/db");
 const pingRouter = require("./routes/pingRouter");
 const userRouter = require("./routes/userRouter");
 const taskRouter = require("./routes/taskRouter");
+const statisticsRouter = require("./routes/statisticsRouter");
 const { app, io, server } = require("./utils/init");
 
 const PORT = process.env.PORT || 3000;
@@ -26,6 +27,7 @@ async function main() {
     app.use("/ping", pingRouter);
     app.use("/user", userRouter);
     app.use("/task", taskRouter);
+    app.use("/statistics", statisticsRouter);
 
     io.on('connection', (socket) => {
       console.log('a socket user connected');
