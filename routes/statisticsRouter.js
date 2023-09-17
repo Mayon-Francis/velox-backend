@@ -21,19 +21,19 @@ statisticsRouter.get("/", async (req, res) => {
 
   let totalEmployeesCount = totalEmployees.data.length;
 
-  let totalUrgetTasks = await supabaseClient
+  let totalUrgentTasks = await supabaseClient
     .from("tasks")
     .select("*")
     .eq("priority", "high");
 
-  let totalUrgetTasksCount = totalUrgetTasks.data.length;
+  let totalUrgentTasksCount = totalUrgentTasks.data.length;
 
   return res.status(200).json({
     message: "Statistics Fetched Successfully",
     totalTasksCount: totalTasksCount,
     percentCompletedTasks: percentage,
     totalEmployeesCount: totalEmployeesCount,
-    totalUrgetTasksCount: totalUrgetTasksCount,
+    totalUrgentTasksCount: totalUrgentTasksCount,
     status: true,
   });
 });
