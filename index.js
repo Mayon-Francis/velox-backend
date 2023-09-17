@@ -32,7 +32,7 @@ async function main() {
     app.use("/task", taskRouter);
 
     server.listen(PORT);
-    console.log("Server is running on port 3000");
+    console.log(`Server is running on port ${PORT}`);
 
 
   } catch (error) {
