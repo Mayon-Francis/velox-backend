@@ -5,6 +5,8 @@ const userRouter = Router();
 
 userRouter.post("/login", async (req, res) => {
     console.log(req.body);
+    req.body.role = req.body.role? req.body.role.toLowerCase() : undefined;
+
     let { data, error } = await supabaseClient
         .from('users')
         .select()
@@ -33,6 +35,12 @@ userRouter.post("/login", async (req, res) => {
         });
     } else if (data[0].role !== req.body.role) {
         return res.status(400).json({ message: "Wrong Role" });
+    } else {
+        return res.status(200).json({
+            message: "Login Success",
+            id: data[0].id,
+            status: true
+        });
     }
 
 

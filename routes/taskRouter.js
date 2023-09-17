@@ -7,6 +7,8 @@ taskRouter.post("/", async (req, res) => {
   console.log(req.body);
   req.body.status = "assigned";
 
+  req.body.priority = req.body.priority? req.body.priority.toLowerCase() : "low";
+  req.body.type = req.body.type? req.body.type.toLowerCase() : undefined;
   const { error, data } = await supabaseClient
     .from("users")
     .select("id", "role", "last_assigned_at")
@@ -58,7 +60,11 @@ taskRouter.post("/", async (req, res) => {
 
 // TODO
 taskRouter.get("/", async (req, res) => {
-  const { error, data } = await supabaseClient.from("tasks").select();
+  const { error, data } = await supabaseClient.from("tasks")
+  .select()
+  .eq("assigned_to_id", req.query.user_id)
+  .order("priority", { ascending: true })
+  .order("created_at", { ascending: true});
 
   if (error) {
     return res.status(500).json({
